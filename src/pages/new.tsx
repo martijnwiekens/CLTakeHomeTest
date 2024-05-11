@@ -45,14 +45,20 @@ export default function NewEpisodePage(): JSX.Element {
 
         // Check if we succeeded
         if (result.status === 200) {
-            // TODO: This could be prettier, but I have to save some time
-            alert("Episode created");
+            // Create an notification
+            const event = new CustomEvent("TO_NOTIFICATION", {
+                detail: { text: "Episode created" },
+            });
+            window.dispatchEvent(event);
 
             // Redirect the user to the episode page
             window.location.href = "/episode/" + episodeId;
         } else {
-            // TODO: This could be prettier, but I have to save some time
-            alert("Something went wrong");
+            // Create an notification
+            const event = new CustomEvent("TO_NOTIFICATION", {
+                detail: { text: "Something went wrong" },
+            });
+            window.dispatchEvent(event);
         }
     }
 

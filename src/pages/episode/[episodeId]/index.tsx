@@ -40,14 +40,20 @@ export default function EpisodePage(): JSX.Element {
 
             // Check if we succeeded
             if (result.status === 200) {
-                // TODO: Better message
-                alert("Episode deleted");
+                // Create an notification
+                const event = new CustomEvent("TO_NOTIFICATION", {
+                    detail: { text: "Episode deleted" },
+                });
+                window.dispatchEvent(event);
 
                 // Redirect to the home page
                 router.push("/");
             } else {
-                // TODO: Better message
-                alert("Something went wrong");
+                // Create an notification
+                const event = new CustomEvent("TO_NOTIFICATION", {
+                    detail: { text: "Something went wrong" },
+                });
+                window.dispatchEvent(event);
             }
         }
     }
