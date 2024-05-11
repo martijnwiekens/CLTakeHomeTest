@@ -3,7 +3,7 @@ import { Episode } from "../../../types";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
-import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { generateClient } from "aws-amplify/api";
 
 // Remember the websocket subscriptions
@@ -137,11 +137,6 @@ export default function EpisodePage(): JSX.Element {
                             {episodeData?.episodeNumber} - {episodeData?.title}
                         </h1>
                         <div className="flex gap-2">
-                            <div className="hover:text-gray-300">
-                                <button>
-                                    <EyeIcon className="w-6 h-6" />
-                                </button>
-                            </div>
                             <Link
                                 href={"/episode/" + episodeData?.id + "/update"}
                                 className="hover:text-gray-300"
