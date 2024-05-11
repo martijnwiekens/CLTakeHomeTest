@@ -96,7 +96,14 @@ export default function UpdateEpisodePage(): JSX.Element {
                     : "episode"}
             </h1>
             <Link
-                href={"/" + episodeData ? episodeData.id : ""}
+                href={
+                    "/" +
+                    (episodeData
+                        ? episodeData.id
+                            ? "episode/" + episodeData?.id
+                            : ""
+                        : "")
+                }
                 className="text-slate-300 hover:text-white"
             >
                 &laquo; Go back
