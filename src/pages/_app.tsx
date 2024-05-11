@@ -1,10 +1,23 @@
 import React from "react";
 
 import Header from "../components/header";
+import NotificationManager from "../components/notificationmanager";
+
+// Setup Amplify
+import { Amplify } from "aws-amplify";
+Amplify.configure({
+    API: {
+        GraphQL: {
+            endpoint: process.env.NEXT_PUBLIC_APPSYNC_API_URL,
+            defaultAuthMode: "apiKey",
+            apiKey: process.env.NEXT_PUBLIC_APPSYNC_API_KEY,
+            region: "us-east-1", // Optional
+        },
+    },
+});
 
 // Import CSS files
 import "../styles/main.css";
-import NotificationManager from "../components/notificationmanager";
 
 /** The Main App for the application
  * Layout will be shown in every page

@@ -4,6 +4,12 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
 import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { generateClient } from "aws-amplify/api";
+
+// Remember the websocket subscriptions
+let SUBSCRIPTION_CREATE = null;
+let SUBSCRIPTION_UPDATE = null;
+let SUBSCRIPTION_DELETE = null;
 
 export default function EpisodePage(): JSX.Element {
     const [episodeData, setEpisodeData] = React.useState<Episode>({} as any);
@@ -17,6 +23,52 @@ export default function EpisodePage(): JSX.Element {
             getEpisode();
         }
     }, [router.isReady]);
+
+    /** Fill the screen with some initial data */
+    useEffect(() => {
+        //
+        // Subscribe to changes
+        //
+        // Create Amplify WebSocket client
+        const client = generateClient();
+
+        // Subscribe to creation of Episode
+        SUBSCRIPTION_CREATE = (
+            client.graphql({
+                query: "subscription OnCreateEpisode { onCreateEpisode { id } }",
+            }) as any
+        ).subscribe({
+            next: () => getEpisode(),
+            error: (error) => console.warn(error),
+        });
+
+        // Subscribe to update of Episode
+        SUBSCRIPTION_UPDATE = (
+            client.graphql({
+                query: "subscription onUpdateEpisode { onUpdateEpisode { id } }",
+            }) as any
+        ).subscribe({
+            next: () => getEpisode(),
+            error: (error) => console.warn(error),
+        });
+
+        // Subscribe to deletion of Episode
+        SUBSCRIPTION_DELETE = (
+            client.graphql({
+                query: "subscription onDeleteEpisode { onDeleteEpisode { id } }",
+            }) as any
+        ).subscribe({
+            next: () => getEpisode(),
+            error: (error) => console.warn(error),
+        });
+
+        // Unsubscribe when the component unmounts
+        return () => {
+            SUBSCRIPTION_CREATE.unsubscribe();
+            SUBSCRIPTION_UPDATE.unsubscribe();
+            SUBSCRIPTION_DELETE.unsubscribe();
+        };
+    }, []);
 
     /** Retrieve the current episode from the API */
     async function getEpisode(): Promise<void> {

@@ -4,9 +4,15 @@ import React, { useEffect } from "react";
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/solid";
 import EpisodeLink from "../components/episodelink";
 import { Episode } from "../types";
+import { generateClient } from "aws-amplify/api";
 
 // Remember a global timeout variable
 const SEARCH_TIMEOUT = null;
+
+// Remember the websocket subscriptions
+let SUBSCRIPTION_CREATE = null;
+let SUBSCRIPTION_UPDATE = null;
+let SUBSCRIPTION_DELETE = null;
 
 /** First Page of the application */
 export default function HomePage(): JSX.Element {
@@ -16,7 +22,51 @@ export default function HomePage(): JSX.Element {
 
     /** Fill the screen with some initial data */
     useEffect(() => {
+        // Retrieve the data
         getData();
+
+        //
+        // Subscribe to changes
+        //
+        // Create Amplify WebSocket client
+        const client = generateClient();
+
+        // Subscribe to creation of Episode
+        SUBSCRIPTION_CREATE = (
+            client.graphql({
+                query: "subscription OnCreateEpisode { onCreateEpisode { id } }",
+            }) as any
+        ).subscribe({
+            next: () => getData(),
+            error: (error) => console.warn(error),
+        });
+
+        // Subscribe to update of Episode
+        SUBSCRIPTION_UPDATE = (
+            client.graphql({
+                query: "subscription onUpdateEpisode { onUpdateEpisode { id } }",
+            }) as any
+        ).subscribe({
+            next: () => getData(),
+            error: (error) => console.warn(error),
+        });
+
+        // Subscribe to deletion of Episode
+        SUBSCRIPTION_DELETE = (
+            client.graphql({
+                query: "subscription onDeleteEpisode { onDeleteEpisode }",
+            }) as any
+        ).subscribe({
+            next: () => getData(),
+            error: (error) => console.warn(error),
+        });
+
+        // Unsubscribe when the component unmounts
+        return () => {
+            SUBSCRIPTION_CREATE.unsubscribe();
+            SUBSCRIPTION_UPDATE.unsubscribe();
+            SUBSCRIPTION_DELETE.unsubscribe();
+        };
     }, []);
 
     /** Search for new episodes when searchTerm gets changed,
