@@ -11,6 +11,7 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse): P
     const episodeData = req.body as Episode;
 
     // Create the episode
+    console.debug("Creating AppSync for Episode: " + episodeData.id);
     const result = await fetch(process.env.APPSYNC_API_URL, {
         "method": "POST",
         "headers": {

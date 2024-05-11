@@ -18,6 +18,7 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse): P
     delete episodeData.imdbRating;
 
     // Update the episode
+    console.debug("Updating AppSync for Episode: " + episodeData.id);
     const result = await fetch(process.env.APPSYNC_API_URL, {
         "method": "POST",
         "headers": {

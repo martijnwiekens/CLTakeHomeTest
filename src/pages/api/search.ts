@@ -10,6 +10,7 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse): Pr
     const searchTerm = req.query.search as string;
 
     // Search AppSync for the Episode
+    console.debug("Requesting AppSync for Episodes: " + searchTerm);
     const result = await fetch(process.env.APPSYNC_API_URL, {
         "method": "POST",
         "headers": {
@@ -52,6 +53,7 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse): Pr
         } else {
             // Send the request to the API
             const requestUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=${episodeId}`;
+            console.debug("Requesting OMDB: " + requestUrl);
             const result = await fetch(requestUrl);
             extraData = await result.json();
             if (extraData.Response !== "False") {
