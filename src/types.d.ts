@@ -8,4 +8,8 @@ export interface Episode {
     releaseDate: string;
     imdbId: string;
     imageUrl?: string;
+    writer?: string;
+    director?: string;
+    actors?: string;
+    imdbRating?: string;
 }

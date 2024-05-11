@@ -103,7 +103,7 @@ export default function EpisodePage(): JSX.Element {
                         ).toLocaleDateString()}
                     </span>
                     <p>{episodeData?.description}</p>
-                    <div>
+                    <div className="flex">
                         <Link
                             href={
                                 "https://imdb.com/title/" + episodeData?.imdbId
@@ -113,6 +113,16 @@ export default function EpisodePage(): JSX.Element {
                             IMDB
                         </Link>
                     </div>
+                    <dl className="grid grid-cols-2 gap-2">
+                        <dt className="font-bold">Director</dt>
+                        <dd>{episodeData?.director}</dd>
+                        <dt className="font-bold">Writer</dt>
+                        <dd>{episodeData?.writer}</dd>
+                        <dt className="font-bold">Actors</dt>
+                        <dd>{episodeData?.actors}</dd>
+                        <dt className="font-bold">Rating</dt>
+                        <dd>{episodeData?.imdbRating}</dd>
+                    </dl>
                 </div>
             </div>
         </main>

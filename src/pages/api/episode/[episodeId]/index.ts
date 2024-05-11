@@ -1,5 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
+// Cache for OMDB API
+// We have a 1000 request limit per day
+// Better to use a cache
+const OMDB_CACHE = {};
+
+
 export default async function Process(req: NextApiRequest, res: NextApiResponse): Promise<any> {
     if (req.method === "DELETE") {
         return await DELETE(req, res);
@@ -7,6 +13,7 @@ export default async function Process(req: NextApiRequest, res: NextApiResponse)
         return await GET(req, res);
     }
 };
+
 
 export async function DELETE(req: NextApiRequest, res: NextApiResponse): Promise<any> {
     // Find the search string in the query params as string
@@ -74,5 +81,35 @@ export async function GET(req: NextApiRequest, res: NextApiResponse): Promise<an
         }),
     });
     const data = await result.json();
-    return res.json(data.data.getEpisodeById);
+
+    // Check if there are any errors
+    if ("errors" in data) {
+        return res.status(404).json(data.errors);
+    }
+    const episodeData = data.data.getEpisodeById;
+    const episodeImdb = episodeData.imdbId;
+
+    // Check if we already have the data
+    let extraData: any = {};
+    if (episodeImdb in OMDB_CACHE) {
+        // Add the episode data to the list
+        extraData = OMDB_CACHE[episodeImdb];
+    } else {
+        // Send the request to the API
+        const requestUrl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=${episodeImdb}`;
+        const result = await fetch(requestUrl);
+        extraData = await result.json();
+        if (extraData.Response !== "False") {
+            OMDB_CACHE[episodeImdb] = extraData;
+        }
+    }
+
+    return res.json({
+        ...episodeData,
+        imageUrl: extraData?.Poster,
+        writer: extraData?.Writer,
+        director: extraData?.Director,
+        actors: extraData?.Actors,
+        imdbRating: extraData?.imdbRating,
+    });
 }
