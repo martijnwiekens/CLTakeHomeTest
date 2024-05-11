@@ -1,9 +1,14 @@
+import Link from "next/link";
 import React from "react";
 
 export default function Header(): JSX.Element {
     return (
         <header>
-            <h1 className="text-4xl font-medium">TV Online</h1>
+            <Link href="/">
+                <h1 className="text-4xl font-medium cursor-pointer">
+                    TV Online
+                </h1>
+            </Link>
         </header>
     );
 }
