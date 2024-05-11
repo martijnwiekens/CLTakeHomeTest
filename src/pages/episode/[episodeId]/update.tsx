@@ -70,7 +70,7 @@ export default function UpdateEpisodePage(): JSX.Element {
             window.dispatchEvent(event);
 
             // Redirect the user to the episode page
-            window.location.href = "/episode/" + episodeId;
+            router.push("/episode/" + episodeId);
         } else {
             // Create an notification
             const event = new CustomEvent("TO_NOTIFICATION", {

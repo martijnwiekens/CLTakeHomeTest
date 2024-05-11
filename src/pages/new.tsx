@@ -1,11 +1,13 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 
 /** Page to create new episode to the database */
 export default function NewEpisodePage(): JSX.Element {
     const [episodeData, setEpisodeData] = React.useState({});
+    const router = useRouter();
 
     /** Save data when a field changes */
     function onChange(event: any): void {
@@ -52,7 +54,7 @@ export default function NewEpisodePage(): JSX.Element {
             window.dispatchEvent(event);
 
             // Redirect the user to the episode page
-            window.location.href = "/episode/" + episodeId;
+            router.push("/episode/" + episodeId);
         } else {
             // Create an notification
             const event = new CustomEvent("TO_NOTIFICATION", {
