@@ -11,9 +11,8 @@ The code in this repo is made for an assignment to create a React application fo
    | Name | Description |
    | ---- | ---- |
    | OMDB_API_KEY | API Key of OMDB |
-   | APPSYNC_API_URL | URL of the AppSync API |
-   | APPSYNC_WS_URL | URL of the WebSocket for AppSync |
-   | APPSYNC_API_KEY | API Key of the AppSync API |
+   | NEXT_PUBLIC_APPSYNC_API_URL | URL of the AppSync API |
+   | NEXT_PUBLIC_APPSYNC_API_KEY | API Key of the AppSync API |
 
 ### Run application
 

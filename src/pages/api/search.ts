@@ -11,11 +11,11 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse): Pr
 
     // Search AppSync for the Episode
     console.debug("Requesting AppSync for Episodes: " + searchTerm);
-    const result = await fetch(process.env.APPSYNC_API_URL, {
+    const result = await fetch(process.env.NEXT_PUBLIC_APPSYNC_API_URL, {
         "method": "POST",
         "headers": {
             "Content-Type": "application/json",
-            "x-api-key": process.env.APPSYNC_API_KEY,
+            "x-api-key": process.env.NEXT_PUBLIC_APPSYNC_API_KEY,
         },
         "body": JSON.stringify({
             "query": `

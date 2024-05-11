@@ -20,11 +20,11 @@ export async function DELETE(req: NextApiRequest, res: NextApiResponse): Promise
     const episodeId = req.query.episodeId as string;
 
     // Search AppSync for the Episode
-    const result = await fetch(process.env.APPSYNC_API_URL, {
+    const result = await fetch(process.env.NEXT_PUBLIC_APPSYNC_API_URL, {
         "method": "POST",
         "headers": {
             "Content-Type": "application/json",
-            "x-api-key": process.env.APPSYNC_API_KEY,
+            "x-api-key": process.env.NEXT_PUBLIC_APPSYNC_API_KEY,
         },
         "body": JSON.stringify({
             "query": `
@@ -55,11 +55,11 @@ export async function GET(req: NextApiRequest, res: NextApiResponse): Promise<an
 
     // Search AppSync for the Episode
     console.debug("Requesting AppSync for Episode: " + episodeId);
-    const result = await fetch(process.env.APPSYNC_API_URL, {
+    const result = await fetch(process.env.NEXT_PUBLIC_APPSYNC_API_URL, {
         "method": "POST",
         "headers": {
             "Content-Type": "application/json",
-            "x-api-key": process.env.APPSYNC_API_KEY,
+            "x-api-key": process.env.NEXT_PUBLIC_APPSYNC_API_KEY,
         },
         "body": JSON.stringify({
             "query": `

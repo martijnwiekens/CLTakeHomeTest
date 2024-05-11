@@ -19,11 +19,11 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse): P
 
     // Update the episode
     console.debug("Updating AppSync for Episode: " + episodeData.id);
-    const result = await fetch(process.env.APPSYNC_API_URL, {
+    const result = await fetch(process.env.NEXT_PUBLIC_APPSYNC_API_URL, {
         "method": "POST",
         "headers": {
             "Content-Type": "application/json",
-            "x-api-key": process.env.APPSYNC_API_KEY,
+            "x-api-key": process.env.NEXT_PUBLIC_APPSYNC_API_KEY,
         },
         "body": JSON.stringify({
             "query": `
