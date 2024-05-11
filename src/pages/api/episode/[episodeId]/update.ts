@@ -10,6 +10,13 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse): P
     // Get the episode data from the body
     const episodeData = req.body as Episode;
 
+    // Remove the extra data fields
+    delete episodeData.imageUrl;
+    delete episodeData.writer;
+    delete episodeData.director;
+    delete episodeData.actors;
+    delete episodeData.imdbRating;
+
     // Update the episode
     const result = await fetch(process.env.APPSYNC_API_URL, {
         "method": "POST",
