@@ -49,7 +49,10 @@ export default function NewEpisodePage(): JSX.Element {
         if (result.status === 200) {
             // Create an notification
             const event = new CustomEvent("TO_NOTIFICATION", {
-                detail: { text: "Episode created" },
+                detail: {
+                    text: "Episode created",
+                    url: "/episode/" + episodeId,
+                },
             });
             window.dispatchEvent(event);
 

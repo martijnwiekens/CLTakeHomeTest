@@ -65,7 +65,10 @@ export default function UpdateEpisodePage(): JSX.Element {
         if (result.status === 200) {
             // Create an notification
             const event = new CustomEvent("TO_NOTIFICATION", {
-                detail: { text: "Episode updated" },
+                detail: {
+                    text: "Episode updated",
+                    url: "/episode/" + episodeId,
+                },
             });
             window.dispatchEvent(event);
 
