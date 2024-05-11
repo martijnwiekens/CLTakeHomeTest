@@ -17,7 +17,7 @@ export default function EpisodeLink({
             <img
                 src={episode.imageUrl ? episode.imageUrl : ""}
                 alt="Episode poster"
-                className="w-64 h-72"
+                className="h-72"
             />
             <div className="w-72 p-2 overflow-hidden flex flex-col">
                 <span className="truncate font-bold text-lg">
